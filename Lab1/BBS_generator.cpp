@@ -3,6 +3,7 @@
 #include <cmath>
 #include <ctime>
 #include <cstdlib>
+#include "Test_FIPS_140-2.hpp"
 
 // Funkcja sprawdzająca czy dwie liczby są względnie pierwsze
 bool are_coprime(int a, int b)
@@ -96,6 +97,7 @@ int main()
 
     // Generowanie ciagu bitow
     unsigned long long int x2 = 0, pom = x0;
+    generated_code.push_back(pom % 2);
     for (int i = 1; i < 20000; i++)
     {
         bool parzystosc;
@@ -109,6 +111,10 @@ int main()
     {
         std::cout << i;
     }
+
+    std::cout << "Test pojedynczych bitow: " << single_bits_test(generated_code) << std::endl;
+    std::cout << "Test serii: " << series_test(generated_code) << std::endl;
+    std::cout << "Test pokerowy: " << poker_test(generated_code) << std::endl;
 
     return 0;
 }
