@@ -1,3 +1,4 @@
+# Function to check if a number is prime
 def is_prime(n):
     if n <= 1:
         return False
@@ -13,6 +14,7 @@ def is_prime(n):
     return True
 
 
+# Function to find the closest prime number to a given number
 def closest_prime(n):
     if is_prime(n):
         return n
@@ -21,12 +23,14 @@ def closest_prime(n):
     return n
 
 
+# Function to calculate the Greatest Common Divisor of two numbers
 def gcd(a, b):
     while b != 0:
         a, b = b, a % b
     return a
 
 
+# Function to generate the public key exponent
 def generate_e(phi, mine):
     for e in range(mine, phi):
         if gcd(e, phi) == 1 and is_prime(e):
@@ -34,6 +38,7 @@ def generate_e(phi, mine):
     return -1
 
 
+# Function to generate the private key exponent
 def generate_d(e, phi):
     d = 1
     while (d * e) % phi != 1:
@@ -41,6 +46,7 @@ def generate_d(e, phi):
     return d
 
 
+# Main function to run the RSA algorithm
 def main():
     print("Podaj p i q ktore sa liczbami pierwszymi")
     p = int(input())
@@ -72,9 +78,9 @@ def main():
     encrypted_message = []
     decrypted_message = []
     for part in message_parts:
-        encrypted = (part ** e) % n
+        encrypted = pow(part, e, n)
         encrypted_message.append(encrypted)
-        decrypted = (encrypted ** d) % n
+        decrypted = pow(encrypted, d, n)
         decrypted_message.append(chr(decrypted))
     print("Zaszyfrowana wiadomość: ", encrypted_message)
     print("Odszyfrowana wiadomość: ", ''.join(decrypted_message))
