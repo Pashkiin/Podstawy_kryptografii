@@ -12,27 +12,35 @@ def is_prime(n):
         i += 6
     return True
 
+
 def closest_prime(n):
     if is_prime(n):
         return n
     while not is_prime(n):
         n -= 1
     return n
+
+
 def gcd(a, b):
     while b != 0:
         a, b = b, a % b
     return a
-def generate_e(phi, min):
-    for e in range(min, phi):
+
+
+def generate_e(phi, mine):
+    for e in range(mine, phi):
         if gcd(e, phi) == 1 and is_prime(e):
             return e
     return -1
 
+
 def generate_d(e, phi):
-    d = 0
+    d = 1
     while (d * e) % phi != 1:
         d += 1
     return d
+
+
 def main():
     print("Podaj p i q ktore sa liczbami pierwszymi")
     p = int(input())
@@ -59,20 +67,17 @@ def main():
     print("Klucz publiczny: (", e, ",", n, ")")
     print("Klucz prywatny: (", d, ",", n, ")")
     print("Podaj wiadomość do zaszyfrowania")
-    message = 78987654321123456789876543212345678987654321234567
-    message_parts = [int(i) for i in message.split()]
+    message = input()
+    message_parts = [ord(char) for char in message]
     encrypted_message = []
     decrypted_message = []
     for part in message_parts:
         encrypted = (part ** e) % n
         encrypted_message.append(encrypted)
         decrypted = (encrypted ** d) % n
-        decrypted_message.append(decrypted)
-    encrypted = (message ** e) % n
-    print("Zaszyfrowana wiadomość: ", encrypted)
-    decrypted = (encrypted ** d) % n
-    print("Odszyfrowana wiadomość: ", decrypted)
-
+        decrypted_message.append(chr(decrypted))
+    print("Zaszyfrowana wiadomość: ", encrypted_message)
+    print("Odszyfrowana wiadomość: ", ''.join(decrypted_message))
 
 
 if __name__ == "__main__":
