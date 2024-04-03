@@ -53,7 +53,7 @@ def diffie_hellman():
         p = closest_prime(p)
         print("Najbliższa liczba pierwsza to: ", p)
     g = find_primitive(p)  # A primitive root of p
-
+    #print("Wartość g to: ", g)
     # Asia generates a private key a
     a = random.randint(999, p)
     # Asia calculates her public key A

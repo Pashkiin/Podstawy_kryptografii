@@ -39,7 +39,7 @@ bool poker_test(std::vector<bool> bits)
     }
 
     double x = (16.0 / 5000.0) * k - 5000.0;
-    std::cout << "Wartosc X:" << x << std::endl;
+    std::cout << ": \n Wartosc X:" << x << std::endl;
     return (x < 46.17) && (x > 2.16);
 }
 
