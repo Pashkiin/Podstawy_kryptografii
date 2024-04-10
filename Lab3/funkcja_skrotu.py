@@ -1,9 +1,7 @@
 import hashlib
 import time
-import itertools
 import random
 import string
-import hashlib
 import random
 import string
 from collections import defaultdict
@@ -68,10 +66,13 @@ def check_sac(algorithm):
     for i in range(len(input_data)):
         flipped_data = input_data[:i] + chr(ord(input_data[i]) ^ 1) + input_data[i+1:]
         flipped_hash, _ = hash_data(flipped_data, algorithm)
-        diff_count = sum(a != b for a, b in zip(original_hash, flipped_hash))
-        if diff_count / len(original_hash) < 0.5:
-            return False
-    return True
+        original_bits = ''.join(format(ord(x), 'b') for x in original_hash)
+        flipped_bits = ''.join(format(ord(x), 'b') for x in flipped_hash)
+        diff_count = sum(a != b for a, b in zip(original_bits, flipped_bits))
+        print(f"SAC diff count: {diff_count/len(original_bits)}")
+        if diff_count / len(original_bits) > 0.46 or diff_count / len(original_bits) < 0.54:
+            return True
+    return False
 
 # Get user input
 data = input("Enter data length: ")
@@ -81,10 +82,10 @@ algorithms = ['md5', 'sha1', 'sha224', 'sha256', 'sha384', 'sha512', 'sha3_224',
 bit_lengths = [12, 20, 50, 100]
 for algorithm in algorithms:
     hashed_data, elapsed_time = hash_data(data, algorithm)
-    print(f"Algorithm: {algorithm}, Hash: {hashed_data},\n Time: {elapsed_time} seconds")
-    print(f"SAC criterion met: {check_sac(algorithm)}")
+    #print(f"Algorithm: {algorithm}, Hash: {hashed_data} bytes ,\n Time: {elapsed_time} seconds")
+    print(f"Algorithm: {algorithm}, SAC criterion met: {check_sac(algorithm)}")
 collision_counts = check_md5_collisions(10000, 10, bit_lengths, 'md5')
-print("Collisions for md5 algorithm",collision_counts)
+#print("Collisions for md5 algorithm",collision_counts)
 
 # Pytanie 4 - Funkcja MD5 nie jest uznawana juz za bezpieczna, poniewaz udalo sie znalezc wiele kolizji dla tej funkcji skrotu.
 #Jest ona używana do spraqwdzania integralności plików, ale nie do haszowania haseł. Rekomendowane jest używanie nowszych i bezpieczniejszych algorytmow takich jak SHA-256 czy SHA-512.
